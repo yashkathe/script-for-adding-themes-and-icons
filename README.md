@@ -3,7 +3,7 @@
 
 This script directly helps to directly add themes and icons to the respective folder after
 you have downloaded the tar.xz file for themes or icons
-## Algorithm
+## Working
 
 The script consists of 5 main functions
 
@@ -14,10 +14,10 @@ The script consists of 5 main functions
     Giving user option to select the folder 
     
 
-- getFolderPath \
+- getFolderPathFunction \
     To get the path of the folder
 
-- extractFolder \
+- extractFolderFunction \
     extracting the folder using tar -xf
 
 - pasteFoldersFunction \
@@ -26,13 +26,24 @@ The script consists of 5 main functions
 ## Running this script
 
 To run this script , 
-extract ther file in the directory where the themes and icons folders are located and run the following command
+extract the script in the directory where the themes and icons folders are located and run the following command
 
 
 ```bash
-  sudo ./theme-script.sh --start
+  sudo ./addtheme.sh 
 ```
 
+
+## Screenshots
+
+1 . Run the script with sudo
+![Step 1](https://raw.githubusercontent.com/yashkathe/script-for-adding-themes-and-icons/master/assets/stepOne.gif)
+
+2 . Select the respective file.tar.xz
+![Step 2](https://raw.githubusercontent.com/yashkathe/script-for-adding-themes-and-icons/master/assets/stepTwo.gif)
+
+3 . Select if where you want to add the unzipped folder
+![Step 3](https://raw.githubusercontent.com/yashkathe/script-for-adding-themes-and-icons/master/assets/stepThree.gif)
 
 ## Feedback
 

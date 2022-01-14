@@ -9,21 +9,25 @@ PASTE_NUM=$()
 ISZIP=$()
 filename=$()
 
+#Colors
+RED='\033[0;31m'
+GREEN='\033[0;32m'
+ORANGE='\033[0;33m'
+NC='\033[0m' # No Color
+
 #starting function
 
 initFunction() {
 	echo "Hello $(id -un)"
 	sleep 0.5s
 	if [[ ${UID} -eq 0 ]]; then
-		echo "Starting ... "
+		printf "Starting ... \n"
 		sleep 1s
-		echo ""
-		echo "Make sure you are running the script from where the folders are located"
-		echo ""
+		printf "${ORANGE} Make sure you are running the script from where the folders are located ${NC}\n"
 		sleep 1s
 	else
-		echo "ERROR ! start this script as root"
-		echo "exiting ..."
+		printf "${RED}ERROR ! start this script as root ${NC}\n"
+		printf "${RED}exiting ...${NC}\n"
 		exit 1
 	fi
 }
@@ -34,14 +38,14 @@ readFoldersFunction() {
 	dirs=(*/)
 
 	echo ""
-	echo "select a folder you wanna copy"
+	printf "select a folder you wanna copy\n"
 	echo ""
 
 	printf "Please select file:\n"
 
 	select FOLDER_NAME in *.tar.xz; do
 		test -n "$FOLDER_NAME" && break
-		echo ">>> Invalid Selection"
+		printf "${RED}>>> Invalid Selection${NC}"
 	done
 }
 
@@ -50,10 +54,8 @@ readFoldersFunction() {
 getFolderPathFunction() {
 
 	# PATH_NAME=$(cd "$FOLDER_NAME" && pwd)
-
 	echo ""
-	echo "You selected '$FOLDER_NAME'"
-	echo ""
+	printf "You selected ${FOLDER_NAME} \n"
 	filename=$(basename $FOLDER_NAME)
 	FOLDER_SUFFIX=${filename##*.}
 }
@@ -62,22 +64,21 @@ extractFolderFunction() {
 	#checking if its a tar file or normal so to extract
 
 	if [[ "${FOLDER_SUFFIX}" -eq 'xz' ]]; then
+		printf "unziping the file ... $FOLDER_NAME \n"
 		echo ""
-		echo "unziping the file ... $FOLDER_NAME "
 		sleep 1.2
 		tar -xf ${FOLDER_NAME}
 
 		#exit if there is a error
 
 		if [[ ${?} -ne 0 ]]; then
-			echo ""
-			echo "report errors at https://github.com/yashkathe/script-for-adding-themes-and-icons"
+			printf "${RED}report errors at https://github.com/yashkathe/script-for-adding-themes-and-icons ${NC}"
 			echo ""
 			exit 1
 		else
 			FOLDER_PREFIX=${filename%%.*}
 			echo ""
-			echo "folder just unzipped was $FOLDER_PREFIX"
+			printf "${GREEN}unzipped succesfully${NC}\n"
 			echo ""
 		fi
 
@@ -90,31 +91,36 @@ pasteFoldersFunction() {
 	echo ""
 	read -p "Enter: 1 if this is a theme | Enter: 2 for icons/cursor: " PASTE_NUM
 
+	#for themes
+
 	if [[ ${PASTE_NUM} -eq 1 ]]; then
 		mv ${FOLDER_PREFIX} /usr/share/themes
 		if [[ ${?} -ne 0 ]]; then
 			echo ""
-			echo "report errors at https://github.com/yashkathe/script-for-adding-themes-and-icons"
-			echo "exiting now"
+			printf "${RED}report errors at https://github.com/yashkathe/script-for-adding-themes-and-icons ${NC}"
+			printf "${RED}exiting now ${NC}"
 			echo ""
 			exit 1
 		else
 			echo ""
-			echo "file moved successfully"
+			printf "${GREEN} file moved successfully ${NC}"
 			echo ""
 		fi
+
+		#for icons
+
 	elif [[ ${PASTE_NUM} -eq 2 ]]; then
 		sleep 1.5
 		mv ${FOLDER_PREFIX} /usr/share/icons
 		if [[ ${?} -ne 0 ]]; then
 			echo ""
-			echo "report errors at https://github.com/yashkathe/script-for-adding-themes-and-icons"
-			echo "exiting now"
+			printf "${RED}report errors at https://github.com/yashkathe/script-for-adding-themes-and-icons ${NC}"
+			printf "${RED}exiting now ${NC}"
 			echo ""
 			exit 1
 		else
 			echo ""
-			echo "file moved successfully"
+			printf "${GREEN} file moved successfully ${NC}"
 			echo ""
 		fi
 	else

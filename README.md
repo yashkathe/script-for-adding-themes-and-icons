@@ -36,13 +36,13 @@ extract the script in the directory where the themes and icons folders are locat
 
 ## Screenshots
 
-1 . Run the script with sudo
+1  Run the script with sudo \
 ![Step 1](https://raw.githubusercontent.com/yashkathe/script-for-adding-themes-and-icons/master/assets/stepOne.gif)
 
-2 . Select the respective file.tar.xz
+2  Select the respective file.tar.xz \
 ![Step 2](https://raw.githubusercontent.com/yashkathe/script-for-adding-themes-and-icons/master/assets/stepTwo.gif)
 
-3 . Select if where you want to add the unzipped folder
+3  Select if where you want to add the unzipped folder \
 ![Step 3](https://raw.githubusercontent.com/yashkathe/script-for-adding-themes-and-icons/master/assets/stepThree.gif)
 
 ## Feedback

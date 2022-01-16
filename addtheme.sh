@@ -23,7 +23,7 @@ initFunction() {
 	if [[ ${UID} -eq 0 ]]; then
 		printf "Starting ... \n"
 		sleep 1s
-		printf "${ORANGE} Make sure you are running the script from where the folders are located ${NC}\n"
+		printf "${ORANGE}Make sure you are running the script from where the folders are located ${NC}\n"
 		sleep 1s
 	else
 		printf "${RED}ERROR ! start this script as root ${NC}\n"
@@ -77,9 +77,7 @@ extractFolderFunction() {
 			exit 1
 		else
 			FOLDER_PREFIX=${filename%%.*}
-			echo ""
 			printf "${GREEN}unzipped succesfully${NC}\n"
-			echo ""
 		fi
 
 	else
@@ -99,11 +97,10 @@ pasteFoldersFunction() {
 			echo ""
 			printf "${RED}report errors at https://github.com/yashkathe/script-for-adding-themes-and-icons ${NC}"
 			printf "${RED}exiting now ${NC}"
-			echo ""
 			exit 1
 		else
 			echo ""
-			printf "${GREEN} file moved successfully ${NC}"
+			printf "${GREEN}file moved successfully to /usr/share/themes${NC}"
 			echo ""
 		fi
 
@@ -114,13 +111,13 @@ pasteFoldersFunction() {
 		mv ${FOLDER_PREFIX} /usr/share/icons
 		if [[ ${?} -ne 0 ]]; then
 			echo ""
-			printf "${RED}report errors at https://github.com/yashkathe/script-for-adding-themes-and-icons ${NC}"
+			printf "${RED}report errors at https://github.com/yashkathe/script-for-adding-themes-and-icons ${NC}\n"
 			printf "${RED}exiting now ${NC}"
 			echo ""
 			exit 1
 		else
 			echo ""
-			printf "${GREEN} file moved successfully ${NC}"
+			printf "${GREEN}file moved successfully to /usr/share/icons${NC}\n"
 			echo ""
 		fi
 	else
@@ -128,14 +125,27 @@ pasteFoldersFunction() {
 	fi
 }
 
+deleteFolderFunction() {
+	read -p "Delete the tar.xz folder now ? (Y/n): " DELETE_FOLDER
+	echo ""
+
+	if [[ ${DELETE_FOLDER} == "Y" ]] || [[ ${DELETE_FOLDER} == "y" ]]; then
+		rm -rf ${FOLDER_NAME}
+		sleep 1
+		printf "deleting ..."
+		sleep 1.2
+		printf "${GREEN}Deleted folder successfully ${NC}\n"
+	else
+		printf "${RED}Not deleting the folder ${NC}\n"
+		printf "${RED}exiting now ${NC}\n"
+	fi
+
+}
+
 helpFunction() {
 	echo ""
 	echo "Source Code: https://github.com/yashkathe/script-for-adding-themes-and-icons"
 	echo ""
-}
-
-exitFunction() {
-	echo "start this script with --start"
 }
 
 case "${1}" in
@@ -145,6 +155,7 @@ case "${1}" in
 	getFolderPathFunction
 	extractFolderFunction
 	pasteFoldersFunction
+	deleteFolderFunction
 	;;
 --help)
 	helpFunction
@@ -155,5 +166,6 @@ case "${1}" in
 	getFolderPathFunction
 	extractFolderFunction
 	pasteFoldersFunction
+	deleteFolderFunction
 	;;
 esac

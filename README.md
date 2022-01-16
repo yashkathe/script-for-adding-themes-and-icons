@@ -2,7 +2,7 @@
 # Bash script for adding themes and icons 
 
 This script directly helps to directly add themes and icons to the respective folder after
-you have downloaded the tar.xz file for themes or icons
+you have downloaded the tar.xz file for themes and icons
 ## Working
 
 The script consists of 5 main functions
@@ -13,7 +13,6 @@ The script consists of 5 main functions
 - readFoldersFunction \
     Giving user option to select the folder 
     
-
 - getFolderPathFunction \
     To get the path of the folder
 
@@ -42,7 +41,7 @@ extract the script in the directory where the themes and icons folders are locat
 2 . Select the respective file.tar.xz \
 ![Step 2](https://raw.githubusercontent.com/yashkathe/script-for-adding-themes-and-icons/master/assets/step2.gif)
 
-3 . Select if where you want to add the unzipped folder \
+3 . Select where you want to add the unzipped folder \
 ![Step 3](https://raw.githubusercontent.com/yashkathe/script-for-adding-themes-and-icons/master/assets/step3.gif)
 
 ## Feedback

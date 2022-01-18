@@ -129,7 +129,7 @@ deleteFolderFunction() {
 	read -p "Delete the tar.xz folder now ? (Y/n): " DELETE_FOLDER
 	echo ""
 
-	if [[ ${DELETE_FOLDER} == "Y" ]] || [[ ${DELETE_FOLDER} == "y" ]]; then
+	if [[ ${DELETE_FOLDER} == "Y" ]] || [[ ${DELETE_FOLDER} == "y" ]] || [[ ${DELETE_FOLDER} == "" ]]; then
 		rm -rf ${FOLDER_NAME}
 		sleep 1
 		printf "deleting ..."

@@ -21,7 +21,9 @@ The script consists of 5 main functions
 
 - pasteFoldersFunction \
     pasting the folder in respective folders of themes(/usr/share/themes) or icons(/usr/share/icons)
-    
+
+- deleteFolderFunction \
+    delete(user choice) the tar.xz folder as it is no longer needed     
 ## Running this script
 
 To run this script , 

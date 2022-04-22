@@ -43,7 +43,7 @@ readFoldersFunction() {
 
 	printf "Please select file:\n"
 
-	select FOLDER_NAME in *.tar.xz; do
+	select FOLDER_NAME in *.tar.xz *.tar.gz; do
 		test -n "$FOLDER_NAME" && break
 		printf "${RED}>>> Invalid Selection${NC}"
 	done
@@ -58,12 +58,14 @@ getFolderPathFunction() {
 	printf "You selected ${FOLDER_NAME} \n"
 	filename=$(basename $FOLDER_NAME)
 	FOLDER_SUFFIX=${filename##*.}
+	echo ${filename}
+	echo ${FOLDER_SUFFIX}
 }
 
 extractFolderFunction() {
 	#checking if its a tar file or normal so to extract
 
-	if [[ "${FOLDER_SUFFIX}" -eq 'xz' ]]; then
+	if [[ "${FOLDER_SUFFIX}" == 'xz' ]]; then
 		printf "unziping the file ... $FOLDER_NAME \n"
 		echo ""
 		sleep 1.2
@@ -81,7 +83,45 @@ extractFolderFunction() {
 		fi
 
 	else
-		echo "not xz"
+		echo ""
+	fi
+    if [[ "${FOLDER_SUFFIX}" == 'gz' ]]; then
+    	read -p "Is this a 1 => theme || 2 => icon/cursor " INPUTNUM
+
+        if [[ ${INPUTNUM} -eq 1 ]]
+        then
+        printf "unziping the file ... $FOLDER_NAME \n" 
+		echo ""
+		sleep 1.2
+		tar -xf ${FOLDER_NAME} -C /usr/share/themes
+        exit 1
+        fi
+
+        if [[ ${INPUTNUM} -eq 2 ]]
+        then
+        printf "unziping the file ... $FOLDER_NAME \n" 
+		echo ""
+		sleep 1.2
+		tar -xf ${FOLDER_NAME} -C /usr/share/icons
+        exit 1
+        fi
+
+
+		
+
+		#exit if there is a error
+
+		if [[ ${?} -ne 0 ]]; then
+			printf "${RED}report errors at https://github.com/yashkathe/script-for-adding-themes-and-icons ${NC}"
+			echo ""
+			exit 1
+		else
+			FOLDER_PREFIX=${filename%%.*}
+			printf "${GREEN}unzipped succesfully${NC}\n"
+		fi
+
+	else
+		echo ""
 	fi
 }
 

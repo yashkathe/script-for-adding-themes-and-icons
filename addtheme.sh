@@ -18,194 +18,129 @@ NC='\033[0m' # No Color
 #starting function
 
 initFunction() {
-	echo "Hello $(id -un)"
-	sleep 0.5s
-	if [[ ${UID} -eq 0 ]]; then
-		printf "Starting ... \n"
-		sleep 1s
-		printf "${ORANGE}Make sure you are running the script from where the folders are located ${NC}\n"
-		sleep 1s
-	else
-		printf "${RED}ERROR ! start this script as root ${NC}\n"
-		printf "${RED}exiting ...${NC}\n"
-		exit 1
-	fi
+    echo "Hello $(id -un)"
+    sleep 0.5s
+    if [[ ${UID} -eq 0 ]]; then
+        printf "Starting ... \n"
+        sleep 1s
+        printf "${ORANGE}Make sure you are running the script from where the folders are located ${NC}\n"
+        sleep 1s
+    else
+        printf "${RED}ERROR ! start this script as root ${NC}\n"
+        printf "${RED}exiting now...${NC}\n"
+        exit 1
+    fi
 }
 
 #reading and saving the file you wanna copy
 
 readFoldersFunction() {
-	dirs=(*/)
+    dirs=(*/)
 
-	echo ""
-	printf "select a folder you wanna copy\n"
-	echo ""
+    echo ""
+    printf "Select a folder you wanna copy: \n"
+    echo ""
 
-	printf "Please select file:\n"
-
-	select FOLDER_NAME in *.tar.xz *.tar.gz; do
-		test -n "$FOLDER_NAME" && break
-		printf "${RED}>>> Invalid Selection${NC}"
-	done
+    select FOLDER_NAME in *.tar.xz *.tar.gz; do
+        test -n "$FOLDER_NAME" && break
+        printf "${RED}>>> Invalid Selection${NC}"
+    done
 }
 
 # printing the full path
 
 getFolderPathFunction() {
 
-	# PATH_NAME=$(cd "$FOLDER_NAME" && pwd)
-	echo ""
-	printf "You selected ${FOLDER_NAME} \n"
-	filename=$(basename $FOLDER_NAME)
-	FOLDER_SUFFIX=${filename##*.}
-	echo ${filename}
-	echo ${FOLDER_SUFFIX}
+    # PATH_NAME=$(cd "$FOLDER_NAME" && pwd)
+    echo ""
+    printf "You selected ${FOLDER_NAME} \n"
+    filename=$(basename $FOLDER_NAME)
+    FOLDER_SUFFIX=${filename##*.}
+    echo ""
 }
 
 extractFolderFunction() {
-	#checking if its a tar file or normal so to extract
+    #checking if its a tar file or normal so to extract
 
-	if [[ "${FOLDER_SUFFIX}" == 'xz' ]]; then
-		printf "unziping the file ... $FOLDER_NAME \n"
-		echo ""
-		sleep 1.2
-		tar -xf ${FOLDER_NAME}
+    if [ "${FOLDER_SUFFIX}" == 'xz' ] || [ "${FOLDER_SUFFIX}" == 'gz' ]; then
+        read -p "Is this a 1 => theme || 2 => icon/cursor " INPUTNUM
 
-		#exit if there is a error
+        if [[ ${INPUTNUM} -eq 1 ]]; then
+            printf "unziping the file ... $FOLDER_NAME \n"
+            echo ""
+            sleep 1.2
+            tar -xf ${FOLDER_NAME} -C /usr/share/themes
 
-		if [[ ${?} -ne 0 ]]; then
-			printf "${RED}report errors at https://github.com/yashkathe/script-for-adding-themes-and-icons ${NC}"
-			echo ""
-			exit 1
-		else
-			FOLDER_PREFIX=${filename%%.*}
-			printf "${GREEN}unzipped succesfully${NC}\n"
-		fi
-
-	else
-		echo ""
-	fi
-    if [[ "${FOLDER_SUFFIX}" == 'gz' ]]; then
-    	read -p "Is this a 1 => theme || 2 => icon/cursor " INPUTNUM
-
-        if [[ ${INPUTNUM} -eq 1 ]]
-        then
-        printf "unziping the file ... $FOLDER_NAME \n" 
-		echo ""
-		sleep 1.2
-		tar -xf ${FOLDER_NAME} -C /usr/share/themes
-        exit 1
+            if [[ ${?} -ne 0 ]]; then
+                printf "${RED}report errors at https://github.com/yashkathe/script-for-adding-themes-and-icons ${NC}"
+                echo ""
+                exit 1
+            else
+                printf "${GREEN}Successfully placed the folders${NC}\n"
+            fi
         fi
 
-        if [[ ${INPUTNUM} -eq 2 ]]
-        then
-        printf "unziping the file ... $FOLDER_NAME \n" 
-		echo ""
-		sleep 1.2
-		tar -xf ${FOLDER_NAME} -C /usr/share/icons
-        exit 1
+        if [[ ${INPUTNUM} -eq 2 ]]; then
+            printf "unziping the file ... $FOLDER_NAME \n"
+            echo ""
+            sleep 1.2
+            tar -xf ${FOLDER_NAME} -C /usr/share/icons
+
+            if [[ ${?} -ne 0 ]]; then
+                printf "${RED}report errors at https://github.com/yashkathe/script-for-adding-themes-and-icons ${NC}"
+                echo ""
+                exit 1
+            else
+                printf "${GREEN}Successfully placed the folders${NC}\n"
+            fi
         fi
+    else
+        printf "${RED}Something Went Wrong${NC}"
+    fi
 
-
-		
-
-		#exit if there is a error
-
-		if [[ ${?} -ne 0 ]]; then
-			printf "${RED}report errors at https://github.com/yashkathe/script-for-adding-themes-and-icons ${NC}"
-			echo ""
-			exit 1
-		else
-			FOLDER_PREFIX=${filename%%.*}
-			printf "${GREEN}unzipped succesfully${NC}\n"
-		fi
-
-	else
-		echo ""
-	fi
-}
-
-pasteFoldersFunction() {
-	echo ""
-	read -p "Enter: 1 if this is a theme | Enter: 2 for icons/cursor: " PASTE_NUM
-
-	#for themes
-
-	if [[ ${PASTE_NUM} -eq 1 ]]; then
-		mv ${FOLDER_PREFIX} /usr/share/themes
-		if [[ ${?} -ne 0 ]]; then
-			echo ""
-			printf "${RED}report errors at https://github.com/yashkathe/script-for-adding-themes-and-icons ${NC}"
-			printf "${RED}exiting now ${NC}"
-			exit 1
-		else
-			echo ""
-			printf "${GREEN}file moved successfully to /usr/share/themes${NC}"
-			echo ""
-		fi
-
-		#for icons
-
-	elif [[ ${PASTE_NUM} -eq 2 ]]; then
-		sleep 1.5
-		mv ${FOLDER_PREFIX} /usr/share/icons
-		if [[ ${?} -ne 0 ]]; then
-			echo ""
-			printf "${RED}report errors at https://github.com/yashkathe/script-for-adding-themes-and-icons ${NC}\n"
-			printf "${RED}exiting now ${NC}"
-			echo ""
-			exit 1
-		else
-			echo ""
-			printf "${GREEN}file moved successfully to /usr/share/icons${NC}\n"
-			echo ""
-		fi
-	else
-		echo "enter correct folder"
-	fi
 }
 
 deleteFolderFunction() {
-	read -p "Delete the tar.xz folder now ? (Y/n): " DELETE_FOLDER
-	echo ""
+    read -p "Delete the tar.xz folder now ? (Y/n): " DELETE_FOLDER
+    echo ""
 
-	if [[ ${DELETE_FOLDER} == "Y" ]] || [[ ${DELETE_FOLDER} == "y" ]] || [[ ${DELETE_FOLDER} == "" ]]; then
-		rm -rf ${FOLDER_NAME}
-		sleep 1
-		printf "deleting ..."
-		sleep 1.2
-		printf "${GREEN}Deleted folder successfully ${NC}\n"
-	else
-		printf "${RED}Not deleting the folder ${NC}\n"
-		printf "${RED}exiting now ${NC}\n"
-	fi
+    if [[ ${DELETE_FOLDER} == "Y" ]] || [[ ${DELETE_FOLDER} == "y" ]] || [[ ${DELETE_FOLDER} == "" ]]; then
+        rm -rf ${FOLDER_NAME}
+        sleep 1
+        printf "deleting ...\n"
+        sleep 1.2
+        printf "${GREEN}Deleted folder successfully ${NC}\n"
+        printf "${GREEN}All Operations Completed Successfully. ${NC}\n"
+        printf "${GREEN}exiting now. ${NC}\n"
+    else
+        printf "${RED}Not deleting the folder ${NC}\n"
+        printf "${RED}exiting now ${NC}\n"
+    fi
 
 }
 
 helpFunction() {
-	echo ""
-	echo "Source Code: https://github.com/yashkathe/script-for-adding-themes-and-icons"
-	echo ""
+    echo ""
+    echo "Source Code: https://github.com/yashkathe/script-for-adding-themes-and-icons"
+    echo ""
 }
 
 case "${1}" in
 --start)
-	initFunction
-	readFoldersFunction
-	getFolderPathFunction
-	extractFolderFunction
-	pasteFoldersFunction
-	deleteFolderFunction
-	;;
+    initFunction
+    readFoldersFunction
+    getFolderPathFunction
+    extractFolderFunction
+    deleteFolderFunction
+    ;;
 --help)
-	helpFunction
-	;;
+    helpFunction
+    ;;
 *)
-	initFunction
-	readFoldersFunction
-	getFolderPathFunction
-	extractFolderFunction
-	pasteFoldersFunction
-	deleteFolderFunction
-	;;
+    initFunction
+    readFoldersFunction
+    getFolderPathFunction
+    extractFolderFunction
+    deleteFolderFunction
+    ;;
 esac

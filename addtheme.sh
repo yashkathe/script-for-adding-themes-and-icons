@@ -125,6 +125,83 @@ helpFunction() {
     echo ""
 }
 
+#code for deleting themes and icons folder
+
+deleteTheme() {
+
+    THEMES=$(ls /usr/share/themes)
+
+    select FOLDER_NAME in $THEMES; do
+        read -p "Do you surely want to delete ? $FOLDER_NAME (y/n): " FOLDER2DELETE
+        if [[ $FOLDER2DELETE == "y" || $FOLDER2DELETE == "Y" || $FOLDER2DELETE == "" ]]; then
+            sudo rm -rf /usr/share/themes/$FOLDER_NAME
+            if [[ ${?} -ne 0 ]]; then
+                printf "${RED}SOMETHING WENT WRONG ${NC}"
+                printf "${RED}report errors at https://github.com/yashkathe/script-for-adding-themes-and-icons ${NC}"
+                echo ""
+                exit 1
+            else
+                printf "${GREEN} DELETED SUCCESSFULLY $FOLDER_NAME ${NC}"
+                echo ""
+                break
+            fi
+
+        elif [[ $FOLDER2DELETE == "n" || $FOLDER2DELETE == "N" ]]; then
+            echo "NOT DELETING .."
+            echo ""
+            break
+        else
+            printf "${RED} INVALID COMMAND ${NC}"
+            echo ""
+            break
+        fi
+        break
+    done
+}
+
+deletecIcons() {
+
+    ICONS=$(ls /usr/share/icons)
+
+    select FOLDER_NAME in $ICONS; do
+        read -p "Do you surely want to delete ? $FOLDER_NAME (y/n): " FOLDER2DELETE
+        if [[ $FOLDER2DELETE == "y" || $FOLDER2DELETE == "Y" || $FOLDER2DELETE == "" ]]; then
+            sudo rm -rf /usr/share/icons/$FOLDER_NAME
+            if [[ ${?} -ne 0 ]]; then
+                printf "${RED}SOMETHING WENT WRONG ${NC}"
+                printf "${RED}report errors at https://github.com/yashkathe/script-for-adding-themes-and-icons ${NC}"
+                echo ""
+                exit 1
+            else
+                printf "${GREEN} DELETED SUCCESSFULLY $FOLDER_NAME ${NC}"
+                echo ""
+                break
+            fi
+
+        elif [[ $FOLDER2DELETE == "n" || $FOLDER2DELETE == "N" ]]; then
+            echo "NOT DELETING .."
+            echo ""
+            break
+        else
+            printf "${RED} INVALID COMMAND ${NC}"
+            echo ""
+            break
+        fi
+        break
+    done
+}
+
+mainDeleteFunction() {
+    read -p "Delete Themes or Icons folder || 1=>themes 2=>icons: " SELECTOPT
+    if [[ $SELECTOPT -eq 1 ]]; then
+        deleteTheme
+    elif [[ $SELECTOPT -eq 2 ]]; then
+        deleteIcons
+    else
+        printf "${RED} INVALID COMMAND ${NC}/n"
+    fi
+}
+
 case "${1}" in
 --start)
     initFunction
@@ -135,6 +212,9 @@ case "${1}" in
     ;;
 --help)
     helpFunction
+    ;;
+--delete)
+    mainDeleteFunction
     ;;
 *)
     initFunction

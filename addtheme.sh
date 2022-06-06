@@ -63,7 +63,7 @@ extractFolderFunction() {
     #checking if its a tar file or normal so to extract
 
     if [ "${FOLDER_SUFFIX}" == 'xz' ] || [ "${FOLDER_SUFFIX}" == 'gz' ]; then
-        read -p "Is this a 1 => theme || 2 => icon/cursor " INPUTNUM
+        read -p "Enter 1 if this is a => theme || Enter 2 if this is a => icon/cursor: " INPUTNUM
 
         if [[ ${INPUTNUM} -eq 1 ]]; then
             printf "unziping the file ... $FOLDER_NAME \n"
@@ -104,7 +104,7 @@ deleteFolderFunction() {
     read -p "Delete the tar.xz folder now ? (Y/n): " DELETE_FOLDER
     echo ""
 
-    if [[ ${DELETE_FOLDER} == "Y" ]] || [[ ${DELETE_FOLDER} == "y" ]] || [[ ${DELETE_FOLDER} == "" ]]; then
+    if [[ ${DELETE_FOLDER} == "Y" ]] || [[ ${DELETE_FOLDER} == "y" ]] || [[ ${DELETE_FOLDER} == " " ]]; then
         rm -rf ${FOLDER_NAME}
         sleep 1
         printf "deleting ...\n"
@@ -112,9 +112,13 @@ deleteFolderFunction() {
         printf "${GREEN}Deleted folder successfully ${NC}\n"
         printf "${GREEN}All Operations Completed Successfully. ${NC}\n"
         printf "${GREEN}exiting now. ${NC}\n"
-    else
+    elif [[ ${DELETE_FOLDER} == "N" ]] || [[ ${DELETE_FOLDER} == "n" ]]; then
         printf "${RED}Not deleting the folder ${NC}\n"
-        printf "${RED}exiting now ${NC}\n"
+        printf "${GREEN}Operations Completed Successfully. ${NC}\n"
+        printf "${GREEN}exiting now. ${NC}\n"
+    else 
+        printf "${RED}Not a valid option ${NC}\n"
+        printf "${RED}Ignoring deleteFolderFunc ... not deleting folder ${NC}\n"
     fi
 
 }
@@ -145,7 +149,6 @@ deleteTheme() {
                 echo ""
                 break
             fi
-
         elif [[ $FOLDER2DELETE == "n" || $FOLDER2DELETE == "N" ]]; then
             echo "NOT DELETING .."
             echo ""

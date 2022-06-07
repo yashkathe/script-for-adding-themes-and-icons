@@ -24,6 +24,13 @@ The script consists of 5 main functions
 
 - deleteFolderFunction \
     delete(user choice) the tar.xz folder as it is no longer needed     
+
+## Download the script 
+
+```bash
+  wget https://raw.githubusercontent.com/yashkathe/script-for-adding-themes-and-icons/master/addtheme.sh
+```
+
 ## Running this script
 
 To run this script , 

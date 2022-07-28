@@ -162,7 +162,7 @@ deleteTheme() {
     done
 }
 
-deletecIcons() {
+deleteIcons() {
 
     ICONS=$(ls /usr/share/icons)
 

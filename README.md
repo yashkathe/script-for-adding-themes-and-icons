@@ -7,6 +7,8 @@ you have downloaded the tar.xz file for themes and icons
 
 The script consists of 5 main functions
 
+1. For adding themes and icons to respective folders:
+
 -	initFunction \
     The starting function to check if sudo is operating it 
 
@@ -19,11 +21,16 @@ The script consists of 5 main functions
 - extractFolderFunction \
     extracting the folder using tar -xf
 
-- pasteFoldersFunction \
-    pasting the folder in respective folders of themes(/usr/share/themes) or icons(/usr/share/icons)
-
 - deleteFolderFunction \
     delete(user choice) the tar.xz folder as it is no longer needed     
+
+2. For deleting already existing themes and icons folders with --delete option:
+
+-	mainDeleteFunction \
+    Check if user wants to delete icons or themes folder
+
+-	deleteTheme and deleteIcons \
+    To delete themes and icons according to input received in first function 
 
 ## Download the script 
 
@@ -39,6 +46,13 @@ extract the script in the directory where the themes and icons folders are locat
 
 ```bash
   sudo ./addtheme.sh 
+```
+
+To delete already existing themes or icons, run the script with additional argument
+
+
+```bash
+  sudo ./addtheme.sh --delete
 ```
 
 

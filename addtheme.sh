@@ -21,7 +21,6 @@ initFunction() {
     echo "Hello $(id -un)"
     sleep 0.5s
     if [[ ${UID} -eq 0 ]]; then
-        printf "Starting ... \n"
         sleep 1s
         printf "${ORANGE}Make sure you are running the script from where the folders are located ${NC}\n"
         sleep 1s
@@ -104,7 +103,7 @@ deleteFolderFunction() {
     read -p "Delete the tar.xz folder now ? (Y/n): " DELETE_FOLDER
     echo ""
 
-    if [[ ${DELETE_FOLDER} == "Y" ]] || [[ ${DELETE_FOLDER} == "y" ]] || [[ ${DELETE_FOLDER} == " " ]]; then
+    if [[ ${DELETE_FOLDER} == "Y" ]] || [[ ${DELETE_FOLDER} == "y" ]] || [[ ${DELETE_FOLDER} == " " ]] || [[ ${DELETE_FOLDER} == "" ]]; then
         rm -rf ${FOLDER_NAME}
         sleep 1
         printf "deleting ...\n"
